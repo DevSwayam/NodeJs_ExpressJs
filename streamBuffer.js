@@ -30,12 +30,15 @@ const app = http.createServer((req,res)=>{
             const parseBody = Buffer.concat(body).toString();// buffer me jo bhi data hey use concat karo 
             const message = parseBody.split('=')[1]; // hum msg=swayam hu bhai nahi chahiye isliye "=" ke pehle wala split karke text file me store karenge
             // console.log(parseBody); // print kardo
-            fs.writeFileSync("stremFile.txt",message); // writeFileSunc() bata raha ki ye function ka pura wait karo jab tak ye write na kare text file me (synchronous behaviour) called as blocking code
+            //fs.writeFileSync("stremFile.txt",message); // writeFileSunc() bata raha ki ye function ka pura wait karo jab tak ye write na kare text file me (synchronous behaviour) called as blocking code and we shouldnt use this instead we can use writeFile() which wont stop further execution of code and instead will return back after file is written
+            fs.writeFile("newFILE.txt",message,(err)=>{
+                res.statusCode=302; 
+            res.setHeader("Location","/"); 
+            res.end(); 
+            });
+            
         });
-        fs.writeFileSync("NewFile.txt","Helloooo"); 
-        res.statusCode=302; 
-        res.setHeader("Location","/"); 
-        res.end(); 
+        fs.writeFileSync("NewFile.txt","Helloooo");
     }
 });
 
