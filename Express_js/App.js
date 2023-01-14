@@ -4,13 +4,14 @@ const { Console } = require('console');
 const bodyParser = require('body-parser');
 const adminRoutes = require("./routes/admin");
 const courseRoutes = require("./routes/course");
+const path  =require('path');
 
 const app = express(); // ye express function ka isntance type create karke app me store karliya ab app me iske methods use kar sakte ho
 // helps middleware function to parse this use functions handle all requsts which are stored in array 
 // This is to study response object of the creatServer() method
 
 app.use(bodyParser.urlencoded({extended:false})); // body parser for parsing text which is coming from client side
-
+app.use(express.static(path.join(__dirname,'files',"main.css")));
 
 /*
 app.use((req,res,next)=>{ // jese hi koi request ayegi ye callback function trigger hoga
@@ -54,11 +55,9 @@ app.use("/",(req,res,next)=>{
     });
 */
 
-app.use("/admin",adminRoutes);
+app.use(adminRoutes);
 app.use(courseRoutes);
-app.use((req,res,next)=>{
-    res.status(404).send('<h2>Go Touch Some Grass</h2>');
-})
+
 app.listen(3000); // wo http createserver karne ki jarurat nahi hum simple app.listen() karke apna kaam chala saket hey
 
 
